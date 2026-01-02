@@ -9,11 +9,18 @@ const {
   deleteProduct
 } = require('../controllers/productController');
 
-router.post('/', createProduct);
+const { requireRole } = require('../middlewares/authMiddleware');
+
+// 👀 Public (sirf login required, role nahi)
 router.get('/', getProducts);
 router.get('/:id', getProduct);
-router.put('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
+
+// 🛒 Admin + ShopOwner
+router.post('/', requireRole('admin','shopowner'), createProduct);
+router.put('/:id', requireRole('admin','shopowner'), updateProduct);
+
+// ❌ Sirf Admin
+router.delete('/:id', requireRole('admin'), deleteProduct);
 
 
 module.exports = router;

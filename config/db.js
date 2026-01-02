@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// dotenv is loaded centrally in app.js; avoid loading it again here to prevent duplicate output
 
 const connectDB = async () => {
   try {
